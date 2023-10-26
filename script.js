@@ -2,7 +2,7 @@ const container = document.getElementById("parent");
 const divs = container.getElementsByTagName("div");
 
 function onDragStart(event) {
-  event.dataTransfer.setData("sourceId", event.target.id);
+  event.dataTransfer.setData("div1", event.target.id);
 }
 
 function onDragOver(event) {
@@ -10,8 +10,8 @@ function onDragOver(event) {
 }
 
 function onDrop(event) {
-  const sourceId = event.dataTransfer.getData("sourceId");
-  const sourceElement = document.getElementById(sourceId);
+  const div1 = event.dataTransfer.getData("div1");
+  const sourceElement = document.getElementById(div1);
   const destElement = event.target;
 
   const sourceNextElement = sourceElement.nextElementSibling;
