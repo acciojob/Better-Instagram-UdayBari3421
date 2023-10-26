@@ -1,46 +1,40 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const parent = document.getElementById("parent");
+  const container = document.getElementById("parent");
+  const images = container.getElementsByClassName("image");
 
   let dragged;
 
-  parent.addEventListener("dragstart", function (event) {
+  function onDragStart(event) {
+    event.dataTransfer.setData("text/plain", event.target.id);
     dragged = event.target;
-    event.dataTransfer.setData("text/plain", ""); // Required for Firefox
-  });
+    setTimeout(() => {
+      event.target.style.display = "none";
+    }, 0);
+  }
 
-  parent.addEventListener("dragover", function (event) {
+  function onDragOver(event) {
     event.preventDefault();
-  });
+  }
 
-  parent.addEventListener("drop", function (event) {
+  function onDrop(event) {
     event.preventDefault();
-    const target = event.target;
+    const sourceId = event.dataTransfer.getData("text/plain");
+    const sourceElement = document.getElementById(sourceId);
+    const destElement = event.target;
 
-    if (target !== dragged && target.classList.contains("image")) {
-      // Swap the order of the dragged and target elements
-      const parentRect = parent.getBoundingClientRect();
-      const draggedRect = dragged.getBoundingClientRect();
-      const targetRect = target.getBoundingClientRect();
+    // Swap the positions of the source and destination elements
+    container.insertBefore(sourceElement, destElement);
 
-      const offsetX = event.clientX - targetRect.left;
-      const offsetY = event.clientY - targetRect.top;
+    // Show the dragged element again
+    setTimeout(() => {
+      dragged.style.display = "block";
+    }, 0);
+  }
 
-      if (event.clientX < parentRect.left + draggedRect.width / 2) {
-        parent.insertBefore(dragged, target);
-      } else {
-        parent.insertBefore(dragged, target.nextSibling);
-      }
-
-      dragged.style.position = "relative";
-      dragged.style.left = offsetX + "px";
-      dragged.style.top = offsetY + "px";
-
-      // Reset styles after a short delay for a smooth animation
-      setTimeout(function () {
-        dragged.style.position = "";
-        dragged.style.left = "";
-        dragged.style.top = "";
-      }, 100);
-    }
-  });
+  // Add event listeners to each image
+  for (let i = 0; i < images.length; i++) {
+    images[i].addEventListener("dragstart", onDragStart);
+    images[i].addEventListener("dragover", onDragOver);
+    images[i].addEventListener("drop", onDrop);
+  }
 });
