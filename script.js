@@ -7,9 +7,6 @@ document.addEventListener("DOMContentLoaded", function () {
   function onDragStart(event) {
     event.dataTransfer.setData("text/plain", event.target.id);
     dragged = event.target;
-    setTimeout(() => {
-      event.target.style.display = "none";
-    }, 0);
   }
 
   function onDragOver(event) {
@@ -22,16 +19,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const sourceElement = document.getElementById(sourceId);
     const destElement = event.target;
 
-    // Swap the positions of the source and destination elements
-    container.insertBefore(sourceElement, destElement);
-
-    // Show the dragged element again
-    setTimeout(() => {
-      dragged.style.display = "block";
-    }, 0);
+    // Ensure that source and destination elements exist before accessing properties
+    if (sourceElement && destElement && destElement.classList.contains("image")) {
+      // Swap the background images
+      const temp = sourceElement.style.backgroundImage;
+      sourceElement.style.backgroundImage = destElement.style.backgroundImage;
+      destElement.style.backgroundImage = temp;
+    }
   }
 
-  // Add event listeners to each image
   for (let i = 0; i < images.length; i++) {
     images[i].addEventListener("dragstart", onDragStart);
     images[i].addEventListener("dragover", onDragOver);
