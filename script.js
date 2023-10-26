@@ -18,7 +18,6 @@ function onDrop(event) {
   const destNextElement = destElement.nextElementSibling;
 
   container.insertBefore(destElement, sourceNextElement);
-
   container.insertBefore(sourceElement, destNextElement);
 }
 
