@@ -1,47 +1,28 @@
-document.addEventListener('DOMContentLoaded', () => {
-  let draggedItem = null;
+const container = document.getElementById("parent");
+const divs = container.getElementsByTagName("div");
 
-  document.addEventListener('dragstart', (event) => {
-    draggedItem = event.target;
-    setTimeout(() => {
-      event.target.style.display = 'none';
-    }, 0);
-  });
+function onDragStart(event) {
+  event.dataTransfer.setData("drag1", event.target.id);
+}
 
-  document.addEventListener('dragend', (event) => {
-    event.target.style.display = 'block';
-    draggedItem = null;
-  });
+function onDragOver(event) {
+  event.preventDefault();
+}
 
-  document.addEventListener('dragover', (event) => {
-    event.preventDefault();
-  });
+function onDrop(event) {
+  const drag1 = event.dataTransfer.getData("drag1");
+  const sourceElement = document.getElementById(drag1);
+  const destElement = event.target;
 
-  document.addEventListener('drop', (event) => {
-    event.preventDefault();
+  const sourceNextElement = sourceElement.nextElementSibling;
+  const destNextElement = destElement.nextElementSibling;
 
-    if (event.target.classList.contains('image')) {
-      const draggedRect = draggedItem.getBoundingClientRect();
-      const targetRect = event.target.getBoundingClientRect();
+  container.insertBefore(destElement, sourceNextElement);
+  container.insertBefore(sourceElement, destNextElement);
+}
 
-      // Check if the dragged item is dropped onto another item
-      if (draggedItem !== event.target) {
-        // Swap positions using getBoundingClientRect
-        draggedItem.style.transform = `translate(${targetRect.left - draggedRect.left}px, ${targetRect.top - draggedRect.top}px)`;
-        event.target.style.transform = `translate(${draggedRect.left - targetRect.left}px, ${draggedRect.top - targetRect.top}px)`;
-
-        // Swap content
-        const tempContent = event.target.innerHTML;
-        event.target.innerHTML = draggedItem.innerHTML;
-        draggedItem.innerHTML = tempContent;
-
-        // Reset transforms
-        setTimeout(() => {
-          draggedItem.style.transform = '';
-          event.target.style.transform = '';
-        }, 300);
-      }
-    }
-    draggedItem = null;
-  });
-});
+for (let i = 0; i < divs.length; i++) {
+  divs[i].addEventListener("dragstart", onDragStart);
+  divs[i].addEventListener("dragover", onDragOver);
+  divs[i].addEventListener("drop", onDrop);
+}
