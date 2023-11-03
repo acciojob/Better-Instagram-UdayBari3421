@@ -25,4 +25,5 @@ for (let i = 0; i < divs.length; i++) {
   divs[i].addEventListener("dragstart", onDragStart);
   divs[i].addEventListener("dragover", onDragOver);
   divs[i].addEventListener("drop", onDrop);
+	let a = div[i].getBoundingClientRect
 }
