@@ -1,4 +1,3 @@
-// script.js
 document.addEventListener('DOMContentLoaded', () => {
   let draggedItem = null;
 
@@ -20,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.addEventListener('drop', (event) => {
     event.preventDefault();
-    
+
     if (event.target.classList.contains('image')) {
       const draggedRect = draggedItem.getBoundingClientRect();
       const targetRect = event.target.getBoundingClientRect();
