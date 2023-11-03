@@ -17,6 +17,7 @@ function onDrop(event) {
   const sourceNextElement = sourceElement.nextElementSibling;
   const destNextElement = destElement.nextElementSibling;
 
+	let a = drag1.getBoundingClientRect
   container.insertBefore(destElement, sourceNextElement);
   container.insertBefore(sourceElement, destNextElement);
 }
@@ -25,5 +26,4 @@ for (let i = 0; i < divs.length; i++) {
   divs[i].addEventListener("dragstart", onDragStart);
   divs[i].addEventListener("dragover", onDragOver);
   divs[i].addEventListener("drop", onDrop);
-	let a = div[i].getBoundingClientRect
 }
