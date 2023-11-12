@@ -3,13 +3,13 @@ const divs = container.getElementsByTagName("div");
 
 for (let i = 0; i < divs.length; i++) {
   divs[i].addEventListener("dragstart", (event)=>{
-	  event.dataTransfer.setData(`drag-${i}`, event.target.id);
+	  event.dataTransfer.setData(`drag${i}`, event.target.id);
   });
   divs[i].addEventListener("dragover", (event)=>{
 	  event.preventDefault();
   });
   divs[i].addEventListener("drop", (event)=>{
-	  const drag1 = event.dataTransfer.getData(`drag-${i+1}`);
+	  const drag1 = event.dataTransfer.getData(`drag${i+1}`);
 	  const sourceElement = document.getElementById(drag1);
 	  const destElement = event.target;
 	
