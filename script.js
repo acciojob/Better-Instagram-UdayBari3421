@@ -1,28 +1,22 @@
 const container = document.getElementById("parent");
 const divs = container.getElementsByTagName("div");
 
-function onDragStart(event) {
-  event.dataTransfer.setData("drag1", event.target.id);
-}
-
-function onDragOver(event) {
-  event.preventDefault();
-}
-
-function onDrop(event) {
-  const drag1 = event.dataTransfer.getData("drag1");
-  const sourceElement = document.getElementById(drag1);
-  const destElement = event.target;
-
-  const sourceNextElement = sourceElement.nextElementSibling;
-  const destNextElement = destElement.nextElementSibling;
-
-  container.insertBefore(destElement, sourceNextElement);
-  container.insertBefore(sourceElement, destNextElement);
-}
-
 for (let i = 0; i < divs.length; i++) {
-  divs[i].addEventListener("dragstart", onDragStart);
-  divs[i].addEventListener("dragover", onDragOver);
-  divs[i].addEventListener("drop", onDrop);
+  divs[i].addEventListener("dragstart", (event)=>{
+	  event.dataTransfer.setData(`drag-${i}`, event.target.id);
+  });
+  divs[i].addEventListener("dragover", (event)=>{
+	  event.preventDefault();
+  });
+  divs[i].addEventListener("drop", (event)=>{
+	  const drag1 = event.dataTransfer.getData(`drag-${i+1}`);
+	  const sourceElement = document.getElementById(drag1);
+	  const destElement = event.target;
+	
+	  const sourceNextElement = sourceElement.nextElementSibling;
+	  const destNextElement = destElement.nextElementSibling;
+	
+	  container.insertBefore(destElement, sourceNextElement);
+	  container.insertBefore(sourceElement, destNextElement);
+  });
 }
